@@ -14,7 +14,7 @@ ADD http://worldclockapi.com/api/json/utc/now /opt/docker/etc/timestamp
 # configure yum and rpm for running on non-armv7l architectures
 RUN echo "armhfp" > /etc/yum/vars/basearch && \
     echo "armv7hl" > /etc/yum/vars/arch && \
-    echo "armv7hl-redhat-linux-gpu" > /etc/rpm/platform
+    echo "armv7hl-redhat-linux-gnu" > /etc/rpm/platform
 
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && \
