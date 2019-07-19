@@ -49,8 +49,9 @@ conda update --all --yes
 conda clean -tipy
 
 # Install conda build and deployment tools.
-conda install --yes --quiet bzip2 git patch
-conda install --yes --quiet python=3.7 setuptools conda-build anaconda-client
+conda install --yes --quiet \
+    bzip2 git patch \
+    python=3.7 setuptools conda-build anaconda-client
 conda clean -tipy
 
 # Install docker tools
