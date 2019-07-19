@@ -18,6 +18,12 @@ elif [ "$(uname -m)" = "aarch64" ]; then
    export conda_chksum="7f6f3c6ac5895188766218f222feb131"
    # defaults is not enough
    export additional_channel="--add channels c4aarch64"
+elif [ "$(uname -m)" = "armv7l" ]; then
+   export supkg="su-exec"
+   export condapkg="https://github.com/jjhelmus/conda4armv7l/releases/download/1.0.0/conda4armv7l_installer-1.0.0-Linux-armv7l.sh"
+   export conda_chksum="7d1b7b10d5194d8572cc39dd22fe6e18"
+   # defaults is not enough
+   export additional_channel="--add channels c4armv7l"
 else
    exit 1
 fi
@@ -45,7 +51,7 @@ conda clean -tipy
 # Install conda build and deployment tools.
 conda install --yes --quiet bzip2 git patch
 conda install --yes --quiet python=3.7 setuptools conda-build anaconda-client
-conda clean -tipsy
+conda clean -tipy
 
 # Install docker tools
 conda install --yes $supkg
@@ -55,7 +61,7 @@ echo "$supkg ${CONDA_SUEXEC_INFO[1]}" >> /opt/conda/conda-meta/pinned
 conda install --yes tini
 export CONDA_TINI_INFO=( `conda list tini | grep tini` )
 echo "tini ${CONDA_TINI_INFO[1]}" >> /opt/conda/conda-meta/pinned
-conda clean -tipsy
+conda clean -tipy
 
 # Lucky group gets permission to write in the conda dir
 groupadd -g 32766 lucky
