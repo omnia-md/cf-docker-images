@@ -14,7 +14,7 @@ matrix:
 
     - os: linux
       env:
-        - DOCKERIMAGE=linux-anvil-cos7-comp7
+        - DOCKERIMAGE=linux-anvil-cos7
         - DOCKERTAG=latest
 
     - os: linux
