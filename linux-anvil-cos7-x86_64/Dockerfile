@@ -30,12 +30,12 @@ RUN /opt/docker/bin/run_commands
 RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate && \
     conda create -n test --yes --quiet --download-only \
-        defaults::binutils_impl_linux-64 \
-        defaults::binutils_linux-64 \
+        conda-forge::binutils_impl_linux-64 \
+        conda-forge::binutils_linux-64 \
         conda-forge::gcc_impl_linux-64 \
         conda-forge::gcc_linux-64 \
-        defaults::gfortran_impl_linux-64 \
-        defaults::gfortran_linux-64 \
+        conda-forge::gfortran_impl_linux-64 \
+        conda-forge::gfortran_linux-64 \
         conda-forge::gxx_impl_linux-64 \
         conda-forge::gxx_linux-64 \
         defaults::libgcc-ng \
