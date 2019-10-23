@@ -39,7 +39,7 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
         conda-forge::gxx_impl_linux-64 \
         conda-forge::gxx_linux-64 \
         defaults::libgcc-ng \
-        defaults::libgfortran-ng \
+        conda-forge::libgfortran-ng \
         defaults::libstdcxx-ng && \
     conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
