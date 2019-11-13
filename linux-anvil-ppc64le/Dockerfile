@@ -35,17 +35,17 @@ RUN /opt/docker/bin/run_commands
 RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate && \
     conda create -n test --yes --quiet --download-only \
-        defaults::binutils_impl_linux-ppc64le \
+        conda-forge::binutils_impl_linux-ppc64le \
         conda-forge::binutils_linux-ppc64le \
-        defaults::gcc_impl_linux-ppc64le \
+        conda-forge::gcc_impl_linux-ppc64le \
         conda-forge::gcc_linux-ppc64le \
-        defaults::gfortran_impl_linux-ppc64le \
+        conda-forge::gfortran_impl_linux-ppc64le \
         conda-forge::gfortran_linux-ppc64le \
-        defaults::gxx_impl_linux-ppc64le \
+        conda-forge::gxx_impl_linux-ppc64le \
         conda-forge::gxx_linux-ppc64le \
-        defaults::libgcc-ng \
-        defaults::libgfortran-ng \
-        defaults::libstdcxx-ng && \
+        conda-forge::libgcc-ng \
+        conda-forge::libgfortran-ng \
+        conda-forge::libstdcxx-ng && \
     conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
     chgrp -R lucky /opt/conda && \
