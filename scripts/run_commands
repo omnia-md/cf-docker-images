@@ -10,8 +10,8 @@ if [ "$(uname -m)" = "x86_64" ]; then
    export conda_chksum="718259965f234088d785cad1fbd7de03"
 elif [ "$(uname -m)" = "ppc64le" ]; then
    export supkg="su-exec"
-   export condapkg="https://repo.continuum.io/miniconda/Miniconda3-4.6.14-Linux-ppc64le.sh"
-   export conda_chksum="6d3bd64dfc436f38755cde1a3ad40799"
+   export condapkg="https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-Linux-ppc64le.sh"
+   export conda_chksum="9de38932ed6a8865562e6057b578694f"
 elif [ "$(uname -m)" = "aarch64" ]; then
    export supkg="su-exec"
    export condapkg="https://github.com/jjhelmus/conda4aarch64/releases/download/1.0.0/c4aarch64_installer-1.0.0-Linux-aarch64.sh"
@@ -66,4 +66,5 @@ conda clean -tipy
 
 # Lucky group gets permission to write in the conda dir
 groupadd -g 32766 lucky
+chown -R $USER /opt/conda
 chgrp -R lucky /opt/conda && chmod -R g=u /opt/conda
