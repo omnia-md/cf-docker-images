@@ -38,9 +38,9 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
         conda-forge::gfortran_linux-64 \
         conda-forge::gxx_impl_linux-64 \
         conda-forge::gxx_linux-64 \
-        defaults::libgcc-ng \
+        conda-forge::libgcc-ng \
         conda-forge::libgfortran-ng \
-        defaults::libstdcxx-ng && \
+        conda-forge::libstdcxx-ng && \
     conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
     chgrp -R lucky /opt/conda && \
