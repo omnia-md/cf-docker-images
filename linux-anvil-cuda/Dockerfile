@@ -2,7 +2,7 @@ ARG CUDA_VER
 
 FROM nvidia/cuda:${CUDA_VER}-devel-centos6
 
-LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
+LABEL maintainer="jaimergp <jaime.rogue@gmail.com>"
 
 # Set CUDA_VER during runtime.
 ARG CUDA_VER
@@ -58,13 +58,10 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
     chgrp -R lucky /opt/conda && \
     chmod -R g=u /opt/conda
 
-# Download and cache CUDA related packages.
+# JRG: We are not caching cudatoolkit because
+# some versions are not available
 RUN source /opt/conda/etc/profile.d/conda.sh && \
     conda activate && \
-    conda create -n test --yes --quiet --download-only \
-        defaults::cudatoolkit=${CUDA_VER} \
-        && \
-    conda remove --yes --quiet -n test --all && \
     conda clean -tiy && \
     chgrp -R lucky /opt/conda && \
     chmod -R g=u /opt/conda
