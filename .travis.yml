@@ -1,5 +1,9 @@
 language: generic
 
+env:
+  global:
+    - DH_USER=jaimergp
+    
 matrix:
   include:
     - os: linux
@@ -72,9 +76,9 @@ install:
     - |
       if [[ $DOCKERTAG == "jnlp-slave" ]]
       then
-        sed "s|@BASE_IMAGE@|condaforge/${DOCKERIMAGE}|" jnlp-slave/Dockerfile.in > $DOCKERIMAGE/Dockerfile
+        sed "s|@BASE_IMAGE@|${DH_USER}/${DOCKERIMAGE}|" jnlp-slave/Dockerfile.in > $DOCKERIMAGE/Dockerfile
       fi
-    - docker build --build-arg CUDA_VER -t condaforge/$DOCKERIMAGE:$DOCKERTAG -f $DOCKERIMAGE/Dockerfile --no-cache --squash .
+    - docker build --build-arg CUDA_VER -t ${DH_USER}/$DOCKERIMAGE:$DOCKERTAG -f $DOCKERIMAGE/Dockerfile --no-cache --squash .
 
 script:
     - |
@@ -85,4 +89,4 @@ script:
 
 deploy:
   provider: script
-  script: docker login -u jaimergp -p $DH_PASSWORD && docker push jaimergp/$DOCKERIMAGE:$DOCKERTAG
+  script: docker login -u ${DH_USER} -p $DH_PASSWORD && docker push ${DH_USER}/$DOCKERIMAGE:$DOCKERTAG
