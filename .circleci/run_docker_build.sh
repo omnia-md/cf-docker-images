@@ -5,7 +5,7 @@ set -xeuo pipefail
 FEEDSTOCK_ROOT=$(cd "$(dirname "$0")/.."; pwd;)
 
 docker info
-docker history "$( docker images -q "condaforge/${DOCKERIMAGE}" )"
+docker history "$( docker images -q "${DH_USER}/${DOCKERIMAGE}" )"
 
 # In order for the conda-build process in the container to write to the mounted
 # volumes, we need to run with the same id as the host machine, which is
@@ -26,7 +26,7 @@ rm -f "$DONE_CANARY"
 docker run -it \
            -v "${FEEDSTOCK_ROOT}":/home/conda/feedstock_root \
            -e HOST_USER_ID \
-           `docker images -q condaforge/$DOCKERIMAGE` \
+           `docker images -q ${DH_USER}/$DOCKERIMAGE` \
            bash \
            /home/conda/feedstock_root/.circleci/test_docker_container.sh
 
