@@ -2,6 +2,7 @@ language: generic
 
 env:
   global:
+    - DH_UPLOADER=jaimergp
     - DH_USER=omniamd
 
 matrix:
@@ -89,4 +90,4 @@ script:
 
 deploy:
   provider: script
-  script: docker login -u ${DH_USER} -p $DH_PASSWORD && docker push ${DH_USER}/$DOCKERIMAGE:$DOCKERTAG
+  script: docker login -u ${DH_UPLOADER} -p $DH_PASSWORD && docker push ${DH_USER}/$DOCKERIMAGE:$DOCKERTAG
