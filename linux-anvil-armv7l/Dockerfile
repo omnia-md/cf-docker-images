@@ -2,7 +2,7 @@ FROM arm32v7/centos:7
 
 ADD qemu-arm-static /usr/bin/qemu-arm-static
 
-LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
+LABEL maintainer="omniamd <omnia@omnia.md>"
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8

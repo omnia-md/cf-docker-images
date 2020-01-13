@@ -2,7 +2,7 @@ ARG CUDA_VER
 
 FROM nvidia/cuda:${CUDA_VER}-devel-centos6
 
-LABEL maintainer="jaimergp <jaime.rogue@gmail.com>"
+LABEL maintainer="omniamd <omnia@omnia.md>"
 
 # Set CUDA_VER during runtime.
 ARG CUDA_VER

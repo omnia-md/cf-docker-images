@@ -2,8 +2,8 @@ language: generic
 
 env:
   global:
-    - DH_USER=jaimergp
-    
+    - DH_USER=omniamd
+
 matrix:
   include:
     - os: linux
@@ -11,19 +11,19 @@ matrix:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=8.0
         - CUDA_VER=8.0
-        
+
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=9.0
         - CUDA_VER=9.0
-        
+
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda
         - DOCKERTAG=9.1
         - CUDA_VER=9.1
-        
+
     - os: linux
       env:
         - DOCKERIMAGE=linux-anvil-cuda

@@ -1,6 +1,6 @@
 FROM centos:7
 
-LABEL maintainer="conda-forge <conda-forge@googlegroups.com>"
+LABEL maintainer="omniamd <omnia@omnia.md>"
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
