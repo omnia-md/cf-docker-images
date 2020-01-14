@@ -1,6 +1,6 @@
 FROM ppc64le/centos:7
 
-MAINTAINER conda-forge <conda-forge@googlegroups.com>
+MAINTAINER omniamd <omnia@omnia.md>
 
 # Add qemu in here so that we can use this image on regular linux hosts with qemu user installed
 ADD qemu-ppc64le-static /usr/bin/qemu-ppc64le-static

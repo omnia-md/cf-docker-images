@@ -4,7 +4,7 @@ jobs:
   build:
     environment:
       DOCKERIMAGE: linux-anvil-comp7
-      DH_USER: jaimergp
+      DH_USER: omniamd
     working_directory: ~/test
     machine: true
     steps:
