@@ -1,6 +1,6 @@
 ARG CUDA_VER
 
-FROM nvidia/cuda:${CUDA_VER}-devel-centos6
+FROM nvidia/cuda:${CUDA_VER}-devel-centos7
 
 LABEL maintainer="omniamd <omnia@omnia.md>"
 
@@ -39,7 +39,7 @@ RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.
 ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 
 # Remove preinclude system compilers
 RUN rpm -e --nodeps --verbose gcc gcc-c++
