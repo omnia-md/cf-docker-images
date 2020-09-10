@@ -11,11 +11,32 @@ ENV CUDA_VER ${CUDA_VER}
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
 
-# Set path to CUDA install.
+# Set path to CUDA install (this is a symlink to /usr/local/cuda-${CUDA_VER})
 ENV CUDA_HOME /usr/local/cuda
 
-# Add a timestamp for the build. Also, bust the cache.
-ADD http://worldclockapi.com/api/json/utc/now /opt/docker/etc/timestamp
+# we want to persist a path in ldconfig (to avoid having to always set LD_LIBRARY_PATH), but *after* the existing entries;
+# since entries in ld.so.conf.d have precedence before the preconfigured directories, we first add the latter to the former
+RUN ldconfig -v 2>/dev/null | grep -v ^$'\t' | cut -f1 -d":" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf \
+    && if [ ${CUDA_VER} != "9.2" ]; then \
+        # the upstream images for 10.x all have libcuda.so under $CUDA_HOME/compat;
+        # add this to the ldconfig so it will be found correctly.
+        echo "$CUDA_HOME/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf ; \
+    else \
+        # For 9.2, the image nvidia/cuda:9.2-devel-centos6 contains neither
+        # $CUDA_HOME/compat, nor any (non-stub) libcuda.so. We fix this by
+        # adding cuda-compat-10.0 (which is not used for building, but to
+        # test if loading the respective library/package works). However,
+        # due to licensing reasons, these cannot be part of the conda-forge
+        # docker images, but are instead added for CI purposes in:
+        # github.com/conda-forge/conda-forge-ci-setup-feedstock/blob/master/recipe/run_conda_forge_build_setup_linux
+        # Here we only set the ldconfig accordingly.
+        echo "/usr/local/cuda-10.0/compat" >> /etc/ld.so.conf.d/cuda-$CUDA_VER.conf ; \
+    fi \
+    # don't forget to update settings by running ldconfig
+    && ldconfig
+
+# bust the docker cache so that we always rerun the installs below
+ADD http://www.randomtext.me/api/gibberish /opt/docker/etc/gibberish
 
 # Resolves a nasty NOKEY warning that appears when using yum.
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
@@ -58,13 +79,24 @@ RUN source /opt/conda/etc/profile.d/conda.sh && \
     chgrp -R lucky /opt/conda && \
     chmod -R g=u /opt/conda
 
-# JRG: We are not caching cudatoolkit because
-# some versions are not available
-RUN source /opt/conda/etc/profile.d/conda.sh && \
-    conda activate && \
-    conda clean -tiy && \
-    chgrp -R lucky /opt/conda && \
-    chmod -R g=u /opt/conda
+# # Download and cache CUDA related packages.
+# RUN source /opt/conda/etc/profile.d/conda.sh && \
+#     conda activate && \
+#     conda create -n test --yes --quiet --download-only \
+#         defaults::cudatoolkit=${CUDA_VER} \
+#         && \
+#     conda remove --yes --quiet -n test --all && \
+#     conda clean -tiy && \
+#     chgrp -R lucky /opt/conda && \
+#     chmod -R g=u /opt/conda
+
+# Symlink CUDA headers that were moved from $CUDA_HOME/include to /usr/include
+# in CUDA 10.1.
+RUN for HEADER_FILE in cublas_api.h cublas.h cublasLt.h cublas_v2.h cublasXt.h nvblas.h; do \
+    if [[ ! -f "${CUDA_HOME}/include/${HEADER_FILE}" ]]; \
+    then ln -s "/usr/include/${HEADER_FILE}" "${CUDA_HOME}/include/${HEADER_FILE}"; \
+    fi; \
+    done
 
 # Add a file for users to source to activate the `conda`
 # environment `base`. Also add a file that wraps that for
